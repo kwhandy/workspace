@@ -1,6 +1,14 @@
 image:
   file: .gitpod.Dockerfile
 
-# tasks:
-#   - name: Install deps for ruby and node
-#     before: bundle install && yarn install
+tasks:
+  - name: Rails App
+    before: >
+        redis-server &
+        gp ports await 5432 &&
+        sleep 1
+    init: | 
+        gem install foreman
+        bundle install 
+        yarn install --check-files
+        gp sync-done bundle
