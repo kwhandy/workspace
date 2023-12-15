@@ -1,7 +1,7 @@
-FROM gitpod/workspace-postgres
+FROM gitpod/workspace-mysql
 
 # Install Ruby
-ENV RUBY_VERSION=3.2.0
+ENV RUBY_VERSION=3.2.2
 
 # Install the GitHub CLI
 RUN brew install gh
@@ -12,7 +12,7 @@ RUN bash -lc "rvm install ruby-$RUBY_VERSION && rvm use ruby-$RUBY_VERSION --def
 RUN echo "rvm_gems_path=/workspace/.rvm" > ~/.rvmrc
 
 # Install Node and Yarn
-ENV NODE_VERSION=16.16.0
+ENV NODE_VERSION=20.10.0
 RUN bash -c ". .nvm/nvm.sh && \
         nvm install ${NODE_VERSION} && \
         nvm alias default ${NODE_VERSION} && \
