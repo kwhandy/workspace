@@ -13,7 +13,9 @@ services:
     command: sleep infinity
 
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
+    # network_mode: service:db
+    networks:
+      - workspaces-network
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
@@ -28,6 +30,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: postgres
+    networks:
+      - workspaces-network
       # Your config/database.yml should use the user and password you set here,
       # and host "db" (as that's the name of this service). You can use whatever
       # database name you want. Use `bin/rails db:prepare` to create the database.
@@ -44,5 +48,21 @@ services:
     # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
+  ms:
+    image: redis:latest
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    networks:
+      - workspaces-network
+
+    # Add "forwardPorts": ["6379"] to **devcontainer.json** to forward Redis locally.
+    # (Adding the "ports" property to this file will not forward from a Codespace.)
+
+networks:
+  workspaces-network:
+    driver: bridge
+      
 volumes:
   postgres-data:
+  redis-data:
